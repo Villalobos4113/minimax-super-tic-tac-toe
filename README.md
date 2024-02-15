@@ -63,8 +63,8 @@ Follow on-screen instructions to play.
 
 ## Authors
 - Fernando Villalobos Betancourt [@Villalobos4113](https://www.github.com/Villalobos4113)
-- Valeria Anahí Andrade Maqueda [valmaqueda29](https://github.com/valmaqueda29)
-- Rafael Alejandro Bautista Baca
+- Valeria Anahí Andrade Maqueda [@valmaqueda29](https://github.com/valmaqueda29)
+- Rafael Alejandro Bautista Baca [@Osopole117](https://github.com/Osopole117)
 
 ## License
 This project is under the MIT License - see [LICENSE](https://choosealicense.com/licenses/mit/) for details.
