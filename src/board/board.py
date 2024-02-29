@@ -52,6 +52,7 @@ class Board:
             self.sub_boards[board][position] = self.current_player
             self.current_sub_board = position
             self.current_player *= -1
+            self.check_win_sub(board)
             return True
         
         return False
@@ -93,7 +94,14 @@ class Board:
         for combo in winning_combinations:
             if board[combo[0]] == board[combo[1]] == board[combo[2]] != 0:
                 self.main_board[sb_index] = board[combo[0]]
+                self.sub_boards[sb_index] = [board[combo[0]]] * 9
                 return True
+        
+        # Check for draw
+        if 0 not in board:
+            self.main_board[sb_index] = 2
+            self.sub_boards[sb_index] = [2] * 9
+            return True
         
         return False
 
@@ -108,5 +116,9 @@ class Board:
         for combo in winning_combinations:
             if self.main_board[combo[0]] == self.main_board[combo[1]] == self.main_board[combo[2]] != 0:
                 return True, self.main_board[combo[0]]
+        
+        # Check for draw
+        if 0 not in self.main_board:
+            return True, 2
         
         return False, 0
