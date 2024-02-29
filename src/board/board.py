@@ -82,3 +82,17 @@ class Board:
                 return True
         
         return False
+
+    def check_win_main(self):
+        winning_combinations = [
+            (0, 1, 2), (3, 4, 5), (6, 7, 8),  # rows
+            (0, 3, 6), (1, 4, 7), (2, 5, 8),  # columns
+            (0, 4, 8), (2, 4, 6)              # diagonals
+        ]
+
+        # Check for winning combinations
+        for combo in winning_combinations:
+            if self.main_board[combo[0]] == self.main_board[combo[1]] == self.main_board[combo[2]] != 0:
+                return True
+        
+        return False
