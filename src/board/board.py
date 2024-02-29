@@ -79,4 +79,6 @@ class Board:
         for combo in winning_combinations:
             if board[combo[0]] == board[combo[1]] == board[combo[2]] != 0:
                 self.main_board[sb_index] = board[combo[0]]
-                return
+                return True
+        
+        return False
