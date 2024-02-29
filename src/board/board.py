@@ -83,7 +83,7 @@ class Board:
         
         return False
 
-    def check_win_main(self):
+    def check_win_main(self) -> tuple[bool, int]:
         winning_combinations = [
             (0, 1, 2), (3, 4, 5), (6, 7, 8),  # rows
             (0, 3, 6), (1, 4, 7), (2, 5, 8),  # columns
@@ -93,6 +93,6 @@ class Board:
         # Check for winning combinations
         for combo in winning_combinations:
             if self.main_board[combo[0]] == self.main_board[combo[1]] == self.main_board[combo[2]] != 0:
-                return True
+                return True, self.main_board[combo[0]]
         
-        return False
+        return False, 0
