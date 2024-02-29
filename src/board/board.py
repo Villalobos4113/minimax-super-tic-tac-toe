@@ -50,9 +50,10 @@ class Board:
         if self.is_position_free(board, position):
             # Make the move
             self.sub_boards[board][position] = self.current_player
-            self.current_sub_board = position
             self.current_player *= -1
             self.check_win_sub(board)
+            self.current_sub_board = position if self.sub_boards[position] == 0 else -1
+
             return True
         
         return False

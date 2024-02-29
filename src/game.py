@@ -89,9 +89,18 @@ class Game:
                     else:
                         print("Invalid move. Please try again.")
                         sleep(3)
+        
+            winned, winner = self.board.check_win_main()
+        
+        os.system(clean)
+        print('='*50)
+        print()
+        print(self.board.to_string())
+        print()
+        print('='*50)
+        print()
+        print(f"{self.players[0] if winner == 1 else self.players[1] if winner == -1 else 'No one'} won!")
             
-            
-
-                
-game = Game()
-game.play()
+if __name__ == '__main__':      
+    game = Game()
+    game.play()
