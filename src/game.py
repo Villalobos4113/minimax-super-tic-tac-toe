@@ -68,18 +68,27 @@ class Game:
 
     def play(self):
         winned, winner = self.board.check_win_main()
-        boards = {0: 'A-C 1-3', 1: 'C-F 1-3', 2: 'G-I 1,3', 3: 'A-C 4-6', 4: 'C-F 4-6', 5: 'G-I 4-6', 6: 'A-C 7-9', 7: 'C-F 7-9', 8: 'G-I 7-9'}
+        boards = {-1: 'A-I 1-9', 0: 'A-C 1-3', 1: 'D-F 1-3', 2: 'G-I 1,3', 3: 'A-C 4-6', 4: 'D-F 4-6', 5: 'G-I 4-6', 6: 'A-C 7-9', 7: 'D-F 7-9', 8: 'G-I 7-9'}
 
         while not winned:
             os.system(clean)
-            print('='*40)
+            print('='*50)
             print()
             print(self.board.to_string())
             print()
-            print('='*40)
+            print('='*50)
             print()
-            print('    ' + self.players[0] if self.board.current_player == 1 else self.players[1])
+            print('    ' + self.players[0] if self.board.current_player == 1 else self.players[1] + ' turn')
             print()
+
+            if self.game_mode == 0:
+                while True:
+                    move = input(f"Enter your move (e.g. A1) between {boards[self.board.current_sub_board]}: ")
+                    if self.board.make_move(move):
+                        break
+                    else:
+                        print("Invalid move. Please try again.")
+                        sleep(3)
             
             
 

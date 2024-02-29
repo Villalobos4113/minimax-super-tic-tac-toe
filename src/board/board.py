@@ -31,14 +31,19 @@ class Board:
         
         return string_builder
     
-    def make_move(self, board: int, position: str) -> bool:
-        # Check if board and position are valid
-        if self.current_sub_board != -1 and self.current_sub_board != board:
+    def make_move(self, position: str) -> bool:
+        # Convert position to board index
+        board = self.convert_position_to_index_board(position)
+        if board == -1:
             return False
-        
-        # Convert position to index
+
+        # Convert position to position index
         position = self.convert_position_to_index(position)
         if position == -1:
+            return False
+
+        # Check if board and position are valid
+        if self.current_sub_board != -1 and self.current_sub_board != board:
             return False
         
         # Check if the position is free
@@ -58,6 +63,15 @@ class Board:
         column = letter_value[position[0].upper()]
         row = (int(position[1]) - 1) % 3
         return row * 3 + column
+
+    def convert_position_to_index_board(self, position: str) -> int:
+        if len(position) != 2:
+            return -1
+        letter_value = {"A": 0, "B": 0, "C": 0, "D": 1, "E": 1, "F": 1, "G": 2, "H": 2, "I": 2}
+        number_value = {"1": 0, "2": 0, "3": 0, "4": 3, "5": 3, "6": 3, "7": 6, "8": 6, "9": 6}
+        column = letter_value[position[0].upper()]
+        row = number_value[position[1]]
+        return row + column
     
     def is_position_free(self, board: int, position: int) -> bool:
         # Check if the position is in range
