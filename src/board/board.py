@@ -31,22 +31,29 @@ class Board:
         
         return string_builder
     
-    def make_move(self, board: int, position: str) -> bool:
-        # Check if board and position are valid
-        if self.current_sub_board != -1 and self.current_sub_board != board:
+    def make_move(self, position: str) -> bool:
+        # Convert position to board index
+        board = self.convert_position_to_index_board(position)
+        if board == -1:
             return False
-        
-        # Convert position to index
+
+        # Convert position to position index
         position = self.convert_position_to_index(position)
         if position == -1:
+            return False
+
+        # Check if board and position are valid
+        if self.current_sub_board != -1 and self.current_sub_board != board:
             return False
         
         # Check if the position is free
         if self.is_position_free(board, position):
             # Make the move
             self.sub_boards[board][position] = self.current_player
-            self.current_sub_board = position
             self.current_player *= -1
+            self.check_win_sub(board)
+            self.current_sub_board = position if self.sub_boards[position] == 0 else -1
+
             return True
         
         return False
@@ -58,6 +65,15 @@ class Board:
         column = letter_value[position[0].upper()]
         row = (int(position[1]) - 1) % 3
         return row * 3 + column
+
+    def convert_position_to_index_board(self, position: str) -> int:
+        if len(position) != 2:
+            return -1
+        letter_value = {"A": 0, "B": 0, "C": 0, "D": 1, "E": 1, "F": 1, "G": 2, "H": 2, "I": 2}
+        number_value = {"1": 0, "2": 0, "3": 0, "4": 3, "5": 3, "6": 3, "7": 6, "8": 6, "9": 6}
+        column = letter_value[position[0].upper()]
+        row = number_value[position[1]]
+        return row + column
     
     def is_position_free(self, board: int, position: int) -> bool:
         # Check if the position is in range
@@ -79,11 +95,18 @@ class Board:
         for combo in winning_combinations:
             if board[combo[0]] == board[combo[1]] == board[combo[2]] != 0:
                 self.main_board[sb_index] = board[combo[0]]
+                self.sub_boards[sb_index] = [board[combo[0]]] * 9
                 return True
+        
+        # Check for draw
+        if 0 not in board:
+            self.main_board[sb_index] = 2
+            self.sub_boards[sb_index] = [2] * 9
+            return True
         
         return False
 
-    def check_win_main(self):
+    def check_win_main(self) -> tuple[bool, int]:
         winning_combinations = [
             (0, 1, 2), (3, 4, 5), (6, 7, 8),  # rows
             (0, 3, 6), (1, 4, 7), (2, 5, 8),  # columns
@@ -93,6 +116,10 @@ class Board:
         # Check for winning combinations
         for combo in winning_combinations:
             if self.main_board[combo[0]] == self.main_board[combo[1]] == self.main_board[combo[2]] != 0:
-                return True
+                return True, self.main_board[combo[0]]
         
-        return False
+        # Check for draw
+        if 0 not in self.main_board:
+            return True, 2
+        
+        return False, 0
