@@ -52,7 +52,7 @@ class Board:
             self.sub_boards[board][position] = self.current_player
             self.current_player *= -1
             self.check_win_sub(board)
-            self.current_sub_board = position if self.sub_boards[position] == 0 else -1
+            self.current_sub_board = position if self.main_board[position] == 0 else -1
 
             return True
         
